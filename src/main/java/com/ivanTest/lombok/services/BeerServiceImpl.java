@@ -3,6 +3,7 @@ package com.ivanTest.lombok.services;
 import com.ivanTest.lombok.model.Beer;
 import com.ivanTest.lombok.model.BeerStyle;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -61,17 +62,7 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public Beer getBeerById(UUID id) {
 
-        return Beer.builder()
-                .id(id)
-                .version(1)
-                .beerName("Karlovacko")
-                .beerStyle(BeerStyle.LAGER)
-                .upc("12344")
-                .price(new BigDecimal(25))
-                .quantityOnHand(122)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
+        return beerMap.get(id);
     }
 
     @Override
@@ -94,7 +85,7 @@ public class BeerServiceImpl implements BeerService {
                 .price(beer.getPrice())
                 .build();
 
-        beerMap.put(savedBeer.getId(),savedBeer);
+        beerMap.put(savedBeer.getId(), savedBeer);
         return savedBeer;
     }
 
@@ -105,11 +96,37 @@ public class BeerServiceImpl implements BeerService {
         existing.setPrice(beer.getPrice());
         existing.setBeerStyle(beer.getBeerStyle());
 
-        beerMap.put(existing.getId(),existing);
+        beerMap.put(existing.getId(), existing);
     }
 
     @Override
     public void deleteById(UUID beerId) {
         beerMap.remove(beerId);
+    }
+
+    @Override
+    public void patchBeerById(UUID beerId, Beer beer) {
+
+        Beer existing = beerMap.get(beerId);
+
+        if (StringUtils.hasText(beer.getBeerName())) {
+            existing.setBeerName(beer.getBeerName());
+        }
+
+        if (beer.getBeerStyle() != null) {
+            existing.setBeerStyle(beer.getBeerStyle());
+        }
+
+        if (beer.getPrice() != null) {
+            existing.setPrice(beer.getPrice());
+        }
+
+        if (beer.getQuantityOnHand() != null) {
+            existing.setQuantityOnHand(beer.getQuantityOnHand());
+        }
+
+        if (StringUtils.hasText(beer.getUpc())) {
+            existing.setUpc(beer.getUpc());
+        }
     }
 }
