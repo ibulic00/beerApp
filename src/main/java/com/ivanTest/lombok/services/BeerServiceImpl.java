@@ -13,8 +13,6 @@ public class BeerServiceImpl implements BeerService {
 
     private Map<UUID, Beer> beerMap;
 
-    //  No args constructor which instantiates HashMap and builds multiple Beer instances
-
     public BeerServiceImpl() {
 
         this.beerMap = new HashMap<>();
