@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class BeerServiceImpl implements BeerService {
@@ -79,12 +76,27 @@ public class BeerServiceImpl implements BeerService {
                 .build();
     }
 
-
-
-
-
     @Override
     public List<Beer> listBeers() {
-        return null;
+        return new ArrayList<>(beerMap.values());
+    }
+
+    @Override
+    public Beer saveNewBeer(Beer beer) {
+
+        Beer savedBeer = Beer
+                .builder()
+                .id(UUID.randomUUID())
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .beerName(beer.getBeerName())
+                .beerStyle(beer.getBeerStyle())
+                .quantityOnHand(beer.getQuantityOnHand())
+                .upc(beer.getUpc())
+                .price(beer.getPrice())
+                .build();
+
+        beerMap.put(savedBeer.getId(),savedBeer);
+        return savedBeer;
     }
 }

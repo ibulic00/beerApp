@@ -12,7 +12,6 @@ import java.util.UUID;
 @Builder
 public class Beer {
 
-
     private UUID id;
     private Integer version;
     private String beerName;
@@ -22,6 +21,5 @@ public class Beer {
     private BigDecimal price;
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;
-
 
 }
