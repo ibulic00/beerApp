@@ -24,30 +24,46 @@ public class BeerController {
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Beer> listBeers(){
+    public List<Beer> listBeers() {
         log.debug("List Beers");
         return beerService.listBeers();
     }
+
     @RequestMapping(value = "/{beerId}", method = RequestMethod.GET)
     //@Path Variable kaze da uzme variablu beerId iz requesta
 
-    public Beer getBeerById(@PathVariable("beerId") UUID beerId){
+    public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
 
-       log.debug("Get Beer by Id - in controller -1234");
+        log.debug("Get Beer by Id - in controller -1234");
 
         return beerService.getBeerById(beerId);
     }
 
-   // @RequestMapping(method = RequestMethod.POST);
     @PostMapping
-    public ResponseEntity handlePost(@RequestBody Beer beer){
+    public ResponseEntity handlePost(@RequestBody Beer beer) {
 
         Beer savedBeer = beerService.saveNewBeer(beer);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location","/api/v1/beer/" + savedBeer.getId().toString());
+        headers.add("Location", "/api/v1/beer/" + savedBeer.getId().toString());
 
-        return new ResponseEntity(headers,HttpStatus.CREATED);
+        return new ResponseEntity(headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping("{beerId}")
+    public ResponseEntity updateById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer) {
+
+        beerService.updateBeerById(beerId,beer);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("{beerId}")
+    public ResponseEntity deleteById(@PathVariable("beerId") UUID beerId){
+
+        beerService.deleteById(beerId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }
