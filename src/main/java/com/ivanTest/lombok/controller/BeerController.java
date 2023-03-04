@@ -3,10 +3,8 @@ package com.ivanTest.lombok.controller;
 
 import com.ivanTest.lombok.model.Beer;
 import com.ivanTest.lombok.services.BeerService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +16,21 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/v1/beer")
 public class BeerController {
+
+    public static final String BEER_PATH = "/api/v1/beer";
+    public static final String BEER_PATH_ID = BEER_PATH + "/{beerId}";
 
     private final BeerService beerService;
 
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping(value =BEER_PATH)
     public List<Beer> listBeers() {
         log.debug("List Beers");
         return beerService.listBeers();
     }
 
-    @RequestMapping(value = "/{beerId}", method = RequestMethod.GET)
+    @GetMapping(value = BEER_PATH_ID)
     //@Path Variable kaze da uzme variablu beerId iz requesta
 
     public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
@@ -40,7 +40,7 @@ public class BeerController {
         return beerService.getBeerById(beerId);
     }
 
-    @PostMapping
+    @PostMapping(BEER_PATH)
     public ResponseEntity handlePost(@RequestBody Beer beer) {
 
         Beer savedBeer = beerService.saveNewBeer(beer);
@@ -51,7 +51,7 @@ public class BeerController {
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-    @PutMapping("{beerId}")
+    @PutMapping(BEER_PATH_ID)
     public ResponseEntity updateById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer) {
 
         beerService.updateBeerById(beerId, beer);
@@ -59,7 +59,7 @@ public class BeerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("{beerId}")
+    @DeleteMapping(BEER_PATH_ID)
     public ResponseEntity deleteById(@PathVariable("beerId") UUID beerId) {
 
         beerService.deleteById(beerId);
@@ -67,7 +67,7 @@ public class BeerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("{beerId}")
+    @PatchMapping(BEER_PATH_ID)
     public ResponseEntity updateBeerPatchById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer) {
 
         beerService.patchBeerById(beerId, beer);
@@ -76,5 +76,4 @@ public class BeerController {
 
 
     }
-
 }
