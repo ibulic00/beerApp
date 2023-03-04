@@ -1,6 +1,6 @@
-package com.ivanTest.lombok.services;
+package com.ivanTest.springMVC.services;
 
-import com.ivanTest.lombok.model.Customer;
+import com.ivanTest.springMVC.model.Customer;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

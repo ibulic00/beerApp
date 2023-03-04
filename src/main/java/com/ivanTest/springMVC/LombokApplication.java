@@ -1,4 +1,4 @@
-package com.ivanTest.lombok;
+package com.ivanTest.springMVC;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

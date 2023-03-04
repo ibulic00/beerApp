@@ -1,8 +1,8 @@
-package com.ivanTest.lombok.controller;
+package com.ivanTest.springMVC.controller;
 
 
-import com.ivanTest.lombok.model.Beer;
-import com.ivanTest.lombok.services.BeerService;
+import com.ivanTest.springMVC.model.Beer;
+import com.ivanTest.springMVC.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -24,11 +24,12 @@ public class BeerController {
     private final BeerService beerService;
 
 
-    @GetMapping(value =BEER_PATH)
-    public List<Beer> listBeers() {
-        log.debug("List Beers");
+    @GetMapping(value = BEER_PATH)
+    public List<Beer> listBeers(){
         return beerService.listBeers();
     }
+    //If one of the controllers throws "NotFoundException" it will be handled by this method
+
 
     @GetMapping(value = BEER_PATH_ID)
     //@Path Variable kaze da uzme variablu beerId iz requesta
@@ -37,7 +38,7 @@ public class BeerController {
 
         log.debug("Get Beer by Id - in controller -1234");
 
-        return beerService.getBeerById(beerId);
+        return beerService.getBeerById(beerId).orElseThrow(NotFoundException::new);
     }
 
     @PostMapping(BEER_PATH)

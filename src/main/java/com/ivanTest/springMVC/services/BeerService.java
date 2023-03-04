@@ -1,13 +1,14 @@
-package com.ivanTest.lombok.services;
+package com.ivanTest.springMVC.services;
 
-import com.ivanTest.lombok.model.Beer;
+import com.ivanTest.springMVC.model.Beer;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface BeerService {
 
-    Beer getBeerById(UUID id);
+    Optional<Beer> getBeerById(UUID id);
 
     List<Beer> listBeers();
 

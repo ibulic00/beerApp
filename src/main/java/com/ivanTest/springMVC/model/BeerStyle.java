@@ -1,4 +1,4 @@
-package com.ivanTest.lombok.model;
+package com.ivanTest.springMVC.model;
 
 public enum BeerStyle {
 

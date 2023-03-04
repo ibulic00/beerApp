@@ -1,10 +1,9 @@
-package com.ivanTest.lombok.controller;
+package com.ivanTest.springMVC.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ivanTest.lombok.model.Beer;
-import com.ivanTest.lombok.services.BeerService;
-import com.ivanTest.lombok.services.BeerServiceImpl;
+import com.ivanTest.springMVC.model.Beer;
+import com.ivanTest.springMVC.services.BeerService;
+import com.ivanTest.springMVC.services.BeerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -17,9 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
-import static com.ivanTest.lombok.controller.BeerController.BEER_PATH;
+import static com.ivanTest.springMVC.controller.BeerController.BEER_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,7 +27,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
@@ -83,29 +82,26 @@ class BeerControllerTest {
     void testDeleteBeer() throws Exception {
         Beer beer = beerServiceImpl.listBeers().get(0);
 
-        mockMvc.perform(delete( BEER_PATH + "/" + beer.getId())
-                .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete(BeerController.BEER_PATH_ID, beer.getId())
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
-      //  ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
 
         verify(beerService).deleteById(uuidArgumentCaptor.capture());
-      //  verify(beerService).deleteById(any());
 
-        assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.capture());
+        assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
 
     @Test
     void testUpdateBeer() throws Exception {
         Beer beer = beerServiceImpl.listBeers().get(0);
 
-        mockMvc.perform(delete(BEER_PATH + "/" + beer.getId())
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beer)))
                 .andExpect(status().isNoContent());
 
-        ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
-        verify(beerService).deleteById(uuidArgumentCaptor.capture());
-
-        assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+        verify(beerService).updateBeerById(any(UUID.class), any(Beer.class));
     }
 
     @Test
@@ -138,14 +134,24 @@ class BeerControllerTest {
                 .andExpect(jsonPath("$.length()", is(3)));
     }
 
+
+    //throws custom exception
+    @Test
+    void getBeerByIdNotFound() throws Exception {
+
+        given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
+
+        mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()));
+    }
+
     @Test
     void getBeerById() throws Exception {
 
         Beer testBeer = beerServiceImpl.listBeers().get(0);
-        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
 
+        given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
-        mockMvc.perform(get(BEER_PATH + testBeer.getId())
+        mockMvc.perform(get(BeerController.BEER_PATH_ID, testBeer.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

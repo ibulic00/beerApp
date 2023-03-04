@@ -1,7 +1,6 @@
-package com.ivanTest.lombok.services;
+package com.ivanTest.springMVC.services;
 
-import com.ivanTest.lombok.model.Beer;
-import com.ivanTest.lombok.model.Customer;
+import com.ivanTest.springMVC.model.Customer;
 
 import java.util.List;
 import java.util.UUID;

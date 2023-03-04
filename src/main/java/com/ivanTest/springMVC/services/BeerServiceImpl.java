@@ -1,7 +1,7 @@
-package com.ivanTest.lombok.services;
+package com.ivanTest.springMVC.services;
 
-import com.ivanTest.lombok.model.Beer;
-import com.ivanTest.lombok.model.BeerStyle;
+import com.ivanTest.springMVC.model.Beer;
+import com.ivanTest.springMVC.model.BeerStyle;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -60,9 +60,9 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer getBeerById(UUID id) {
+    public Optional<Beer> getBeerById(UUID id) {
 
-        return beerMap.get(id);
+        return  Optional.of(beerMap.get(id));
     }
 
     @Override

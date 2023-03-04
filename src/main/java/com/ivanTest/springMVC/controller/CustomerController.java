@@ -1,8 +1,8 @@
-package com.ivanTest.lombok.controller;
+package com.ivanTest.springMVC.controller;
 
 
-import com.ivanTest.lombok.model.Customer;
-import com.ivanTest.lombok.services.CustomerService;
+import com.ivanTest.springMVC.model.Customer;
+import com.ivanTest.springMVC.services.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
