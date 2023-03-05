@@ -4,6 +4,7 @@ import com.ivanTest.springMVC.model.CustomerDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,22 +20,22 @@ public class CustomerServiceImpl implements CustomerService {
         customerHashMap = new HashMap<>();
 
         CustomerDTO customer1 = CustomerDTO.builder()
-                .customerName("Ivan")
+                .name("Ivan")
                 .id(UUID.randomUUID())
-                .lastModifiedDate(LocalDate.now())
-                .createdDate(LocalDate.now())
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
-        CustomerDTO customer2 = CustomerDTO.builder().customerName("Ante")
+        CustomerDTO customer2 = CustomerDTO.builder().name("Ante")
                 .id(UUID.randomUUID())
-                .lastModifiedDate(LocalDate.now())
-                .createdDate(LocalDate.now())
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
-        CustomerDTO customer3 = CustomerDTO.builder().customerName("Mate")
+        CustomerDTO customer3 = CustomerDTO.builder().name("Mate")
                 .id(UUID.randomUUID())
-                .lastModifiedDate(LocalDate.now())
-                .createdDate(LocalDate.now())
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         customerHashMap.put(customer1.getId(), customer1);
@@ -58,9 +59,9 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerDTO newCustomer = CustomerDTO
                 .builder()
                 .id(UUID.randomUUID())
-                .customerName(customer.getCustomerName())
-                .createdDate(LocalDate.now())
-                .lastModifiedDate(LocalDate.now())
+                .name(customer.getName())
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         customerHashMap.put(newCustomer.getId(), newCustomer);
