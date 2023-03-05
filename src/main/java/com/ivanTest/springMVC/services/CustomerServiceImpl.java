@@ -1,6 +1,6 @@
 package com.ivanTest.springMVC.services;
 
-import com.ivanTest.springMVC.model.Customer;
+import com.ivanTest.springMVC.model.CustomerDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,25 +13,25 @@ import java.util.UUID;
 public class CustomerServiceImpl implements CustomerService {
 
 
-    HashMap<UUID, Customer> customerHashMap;
+    HashMap<UUID, CustomerDTO> customerHashMap;
 
     public CustomerServiceImpl() {
         customerHashMap = new HashMap<>();
 
-        Customer customer1 = Customer.builder()
+        CustomerDTO customer1 = CustomerDTO.builder()
                 .customerName("Ivan")
                 .id(UUID.randomUUID())
                 .lastModifiedDate(LocalDate.now())
                 .createdDate(LocalDate.now())
                 .build();
 
-        Customer customer2 = Customer.builder().customerName("Ante")
+        CustomerDTO customer2 = CustomerDTO.builder().customerName("Ante")
                 .id(UUID.randomUUID())
                 .lastModifiedDate(LocalDate.now())
                 .createdDate(LocalDate.now())
                 .build();
 
-        Customer customer3 = Customer.builder().customerName("Mate")
+        CustomerDTO customer3 = CustomerDTO.builder().customerName("Mate")
                 .id(UUID.randomUUID())
                 .lastModifiedDate(LocalDate.now())
                 .createdDate(LocalDate.now())
@@ -43,19 +43,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> listCustomers() {
+    public List<CustomerDTO> listCustomers() {
         return new ArrayList<>(customerHashMap.values());
     }
 
     @Override
-    public Customer getCustomerById(UUID id) {
+    public CustomerDTO getCustomerById(UUID id) {
         return customerHashMap.get(id);
     }
 
     @Override
-    public Customer createNewCustomer(Customer customer) {
+    public CustomerDTO createNewCustomer(CustomerDTO customer) {
 
-        Customer newCustomer = Customer
+        CustomerDTO newCustomer = CustomerDTO
                 .builder()
                 .id(UUID.randomUUID())
                 .customerName(customer.getCustomerName())

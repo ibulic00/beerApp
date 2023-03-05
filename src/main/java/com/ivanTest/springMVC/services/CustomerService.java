@@ -1,6 +1,6 @@
 package com.ivanTest.springMVC.services;
 
-import com.ivanTest.springMVC.model.Customer;
+import com.ivanTest.springMVC.model.CustomerDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,10 +8,10 @@ import java.util.UUID;
 public interface CustomerService {
 
 
-    List<Customer> listCustomers();
+    List<CustomerDTO> listCustomers();
 
-    Customer getCustomerById(UUID id);
+    CustomerDTO getCustomerById(UUID id);
 
-    Customer createNewCustomer(Customer customer);
+    CustomerDTO createNewCustomer(CustomerDTO customer);
 
 }
